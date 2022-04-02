@@ -1,0 +1,31 @@
+@use '../base';
+
+.form{
+  width: 80%;
+  height: 80%;
+  @include base.flexRow(center, space-around);
+  form {
+    width: 50%;
+    height: 100%;
+    @include base.flexColumn(start, space-around);
+    legend {
+      font-family: base.$primaryFont;
+    }
+    .submit{
+      color: base.$white;
+      background-color: black;
+      width: 40%;
+      border-radius: 5px;
+    }
+    input, div{
+      width: 80%;
+    }
+
+  }
+  .illustration {
+    img{
+      width: 250px;
+      height: auto;
+    }
+  }
+}
