@@ -36,7 +36,23 @@ class RDV extends Model
         return $this->db->resultSet();
     }
 
-    
+    /**
+     * Get all records by field
+     *
+     * @param string $field
+     * @param string $value
+     * @return array
+     */
+    public function getAllBy($field, $value)
+    {
+        $sql = "SELECT r.id, r.date, t.time_slot, r.description FROM rdvs r INNER JOIN time_slots t ON r.time_slot = t.id WHERE $field = :$field";
+        $this->db->query($sql);
+        $this->db->bind(":$field", $value);
+
+        return $this->db->resultSet();
+    }
+
+
     /**
      * Get specific record from database
      * 
@@ -53,17 +69,14 @@ class RDV extends Model
     /**
      * Get reserved time_slots for a given date
      * 
-     * @param ?string $date
+     * @param string $date
      * @return array
      */
-    public function getTimeSlots(string $date = null)
+    public function getTimeSlots(string $date)
     {
-        if ($date) {
-            $this->db->query("SELECT t.id, t.time_slot FROM rdvs r INNER JOIN time_slots t ON r.time_slot = t.id WHERE r.date = :date");
-            $this->db->bind(':date', $date);
-        } else {
-            $this->db->query("SELECT t.id, t.time_slot FROM time_slots t");
-        }
+        $this->db->query("SELECT t.id FROM rdvs r INNER JOIN time_slots t ON r.time_slot = t.id WHERE r.date = :date");
+        $this->db->bind(':date', $date);
+
         return $this->db->resultSet();
     }
 }
