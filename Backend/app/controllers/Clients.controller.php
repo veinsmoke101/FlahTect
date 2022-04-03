@@ -80,12 +80,12 @@ class Clients extends Controller
     }
 
     /**
-     * Create a Client
+     * Store a Client
      *
      * @param array $data
      * @return void
      */
-    public function create($data = [])
+    public function store($data = [])
     {
         // Generate clientRef to data
         $data['clientRef'] = uniqid("client_");
