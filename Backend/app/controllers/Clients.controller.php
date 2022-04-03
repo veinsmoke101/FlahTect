@@ -67,9 +67,9 @@ class Clients extends Controller
         $client = $this->model->get($data['id']);
 
         if ($client === false) {
-            Router::abort(500, json_encode([
+            Router::abort(404, json_encode([
                 'status' => 'error',
-                'message' => 'Server error'
+                'message' => 'Client not found'
             ]));
         }
 
@@ -118,6 +118,16 @@ class Clients extends Controller
         $id = $data['id'];
         unset($data['id']);
 
+        // check if client exists
+        $client = $this->model->get($id);
+
+        if (!$client) {
+            Router::abort(404, json_encode([
+                'status' => 'error',
+                'message' => 'Client not found'
+            ]));
+        }
+
         if (!$this->model->update($id, $data)) {
             Router::abort(500, json_encode([
                 'status' => 'error',
@@ -141,6 +151,16 @@ class Clients extends Controller
      */
     public function delete($data = [])
     {
+        // check if client exists
+        $client = $this->model->get($data['id']);
+
+        if (!$client) {
+            Router::abort(404, json_encode([
+                'status' => 'error',
+                'message' => 'Client not found'
+            ]));
+        }
+
         if (!$this->model->delete($data['id'])) {
             Router::abort(500, json_encode([
                 'status' => 'error',
@@ -149,8 +169,7 @@ class Clients extends Controller
         }
 
         exit(json_encode([
-            'status' => 'success',
-            'data' => []
+            'status' => 'success'
         ]));
     }
 }
