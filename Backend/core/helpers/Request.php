@@ -64,15 +64,14 @@ class Request
                 return empty($_GET) ? [] : $_GET;
                 break;
             case 'POST':
-                return empty($_FILES) ? $_POST : array_merge($_POST, $_FILES);
+                $data = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+                return empty($_FILES) ? $data : array_merge($data, $_FILES);
                 break;
             case 'PUT':
-                parse_str(file_get_contents('php://input'), $_PUT);
-                return $_PUT;
+                return json_decode(file_get_contents('php://input'), true);
                 break;
             case 'DELETE':
-                parse_str(file_get_contents('php://input'), $_DELETE);
-                return $_DELETE;
+                return json_decode(file_get_contents('php://input'), true);
                 break;
             default:
                 return [];
