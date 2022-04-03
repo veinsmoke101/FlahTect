@@ -135,6 +135,7 @@ class Router
 
             $controller = new $controller;
 
+
             return $this->callAction(
                 $controller,
                 $method,
@@ -142,7 +143,7 @@ class Router
             );
         }
 
-        return $this->callAction("Pages", "notFound", []);
+        Router::abort(404, 'Not Found');
     }
 
     /**
