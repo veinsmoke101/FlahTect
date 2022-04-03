@@ -110,6 +110,8 @@ abstract class Model
     /**
      * Get all records by field
      *
+     * @param  string $field
+     * @param  string $value
      * @return array
      */
     public function getAllBy($field, $value)
