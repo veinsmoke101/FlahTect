@@ -17,7 +17,7 @@ class Validator
      * 
      * @param  mixed $value
      * @param  array $rules
-     * @return array
+     * @return array|bool
      * @throws Exception
      */
     public static function validate($value, array $rules)

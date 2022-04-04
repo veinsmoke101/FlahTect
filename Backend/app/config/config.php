@@ -1,10 +1,10 @@
 <?php
 
 // DB Params
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'flahtect');
+const DB_HOST = 'localhost';
+const DB_USER = 'root';
+const DB_PASS = '';
+const DB_NAME = 'flahtect';
 
 // App Root
 define('APPROOT', dirname(__DIR__));
@@ -14,9 +14,3 @@ define('COREROOT', dirname(APPROOT).'/core');
 
 // Public Root
 define('PUBROOT', dirname(APPROOT).'/public');
-
-// URL Link Root
-define('URLROOT', 'localhost:3000');
-
-// Site Name
-define('SITENAME', 'FlahTect');
