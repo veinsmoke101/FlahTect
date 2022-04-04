@@ -29,7 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -39,11 +40,14 @@ CREATE TABLE `admin` (
 --
 
 CREATE TABLE `clients` (
-  `clientID` varchar(255) NOT NULL,
+  `id` int(11) NOT NULL,
+  `clientRef` varchar(255) NOT NULL,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
   `age` int(11) NOT NULL,
-  `profession` varchar(255) DEFAULT NULL
+  `profession` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `clientRef` (`clientRef`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -54,10 +58,12 @@ CREATE TABLE `clients` (
 
 CREATE TABLE `rdv` (
   `rdv_Id` int(11) NOT NULL,
-  `client` varchar(255) NOT NULL,
+  `client` int(11) NOT NULL,
   `date` date NOT NULL,
   `time_slot` time NOT NULL,
-  `description` text NOT NULL
+  `description` text NOT NULL,
+  PRIMARY KEY (`rdv_Id`),
+  FOREIGN KEY (`client`) REFERENCES `clients`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -74,7 +80,8 @@ ALTER TABLE `admin`
 -- Indexes for table `clients`
 --
 ALTER TABLE `clients`
-  ADD PRIMARY KEY (`clientID`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `clientRef` (`clientRef`);
 
 --
 -- Indexes for table `rdv`
@@ -94,6 +101,12 @@ ALTER TABLE `rdv`
   MODIFY `rdv_Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -101,7 +114,7 @@ ALTER TABLE `rdv`
 -- Constraints for table `rdv`
 --
 ALTER TABLE `rdv`
-  ADD CONSTRAINT `client_fk` FOREIGN KEY (`client`) REFERENCES `clients` (`clientID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `client_fk` FOREIGN KEY (`client`) REFERENCES `clients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
