@@ -23,7 +23,7 @@ class Auth extends Controller
         // Set basic headers for JSON response
         header('Content-Type: application/json; charset=UTF-8');
         header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+        header('Access-Control-Allow-Methods: POST');
 
         // set response code
         Request::setResponseCode(200);
@@ -40,15 +40,15 @@ class Auth extends Controller
         // Generate clientRef to data
         $data['clientRef'] = uniqid("client_");
 
-        if (!$this->model->add($data)) {
+        if (!$this->model('Client')->add($data)) {
             Router::abort(500, json_encode([
                 'status' => 'error',
                 'message' => 'Server error'
             ]));
         }
 
-        $client = $this->model->get(
-            $this->model->getLastInsertedId()
+        $client = $this->model('Client')->get(
+            $this->model('Client')->getLastInsertedId()
         );
 
         exit(json_encode([
@@ -65,7 +65,7 @@ class Auth extends Controller
      */
     public function login($data = [])
     {
-        $client = $this->model->getBy('clientRef', $data['clientRef']);
+        $client = $this->model('Client')->getBy('clientRef', $data['clientRef']);
 
         if (!$client) {
             Router::abort(404, json_encode([
@@ -81,6 +81,41 @@ class Auth extends Controller
     }
 
     /**
+     * Register new Admin using username and password
+     * 
+     * @param array $data
+     * @return void
+     */
+    public function registerAdmin($data = [])
+    {
+        $admin = $this->model('Admin')->getBy('username', $data['username']);
+
+        if ($admin) {
+            Router::abort(400, json_encode([
+                'status' => 'error',
+                'message' => 'Admin already exists'
+            ]));
+        }
+
+        // Hash password
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        
+        if (!$this->model('Admin')->add($data)) {
+            Router::abort(500, json_encode([
+                'status' => 'error',
+                'message' => 'Server error'
+            ]));
+        }
+
+        unset($data['password']);
+
+        exit(json_encode([
+            'status' => 'success',
+            'data' => $data
+        ]));
+    }
+
+    /**
      * Login an admin using username and password
      * 
      * @param array $data
@@ -88,7 +123,7 @@ class Auth extends Controller
      */
     public function loginAdmin($data = [])
     {
-        $admin = $this->model->getBy('username', $data['username']);
+        $admin = $this->model('Admin')->getBy('username', $data['username']);
 
         if (!$admin) {
             Router::abort(404, json_encode([
