@@ -16,7 +16,7 @@ class RDV extends Model
     public function __construct()
     {
         parent::__construct([
-            'id' => 'numeric',
+            'id' => 'required|numeric',
             'client_id' => 'required|numeric', // uniqId("client_")
             'date' => 'required|date',
             'time_slot' => 'required|numeric|min:1|max:5',
