@@ -55,8 +55,6 @@ const AdminDashboard = () => {
 
 
     return (
-        <div>
-
             <DashboardLayout>
 
                 {formToggle ? <AddClient /> : <UpdateClient />}
@@ -65,8 +63,6 @@ const AdminDashboard = () => {
                 {/*<button onClick={updateHandler} >Update</button>*/}
 
             </DashboardLayout>
-
-        </div>
     );
 };
 
