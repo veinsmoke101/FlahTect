@@ -118,21 +118,21 @@ class Validator
     public static function min($value, $min)
     {
         switch (true) {
+            case is_numeric($value):
+                if ($value <  (int)$min) {
+                    return 'The value must be at least ' . $min;
+                }
+                break;
+
             case is_string($value):
-                if (strlen($value) <= (int)$min) {
+                if (strlen($value) < (int)$min) {
                     return 'The value must be at least ' . $min . ' characters long';
                 }
                 break;
 
             case is_array($value):
-                if (count($value) <=  (int)$min) {
+                if (count($value) <  (int)$min) {
                     return 'The value must be at least ' . $min . ' items long';
-                }
-                break;
-
-            case is_numeric($value):
-                if ($value <=  (int)$min) {
-                    return 'The value must be at least ' . $min;
                 }
                 break;
 
@@ -155,18 +155,18 @@ class Validator
     {
         switch (true) {
             case is_numeric($value):
-                if ($value >=  (int)$max) {
+                if ($value > (int)$max) {
                     return 'The value must be at most ' . $max;
                 }
                 break;
             case is_string($value):
-                if (strlen($value) >=  (int)$max) {
+                if (strlen($value) > (int)$max) {
                     return 'The value must be at most ' . $max . ' characters long';
                 }
                 break;
 
             case is_array($value):
-                if (count($value) >=  (int)$max) {
+                if (count($value) > (int)$max) {
                     return 'The value must be at most ' . $max . ' items long';
                 }
                 break;
@@ -324,7 +324,7 @@ class Validator
      * Check if value is a date and return error if not.
      * 
      * @param mixed $value
-     * @return string
+     * @return string|bool
      */
     public static function date($value)
     {
@@ -333,7 +333,7 @@ class Validator
         }
         // Check Date Format (YYYY-mm-dd)
         if (!preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $value)) {
-            return 'The value must be a date';
+            return 'The value must follow the date format YYYY-mm-dd';
         }
 
         return true;
