@@ -17,7 +17,7 @@ class Client extends Model
     {
         parent::__construct([
             'id' => 'numeric',
-            'clientRef' => 'string|min:20|max:25',// uniqId("client_")
+            'clientRef' => 'required|string|min:20|max:20',// uniqId("client_")
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'age' => 'required|numeric|min:18|max:100',
