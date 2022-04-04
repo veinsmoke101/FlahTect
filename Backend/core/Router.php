@@ -127,8 +127,9 @@ class Router
             // Call the Middlewares and stop the execution if one of them returns false
             if (count($middlewares) > 0) {
                 foreach ($middlewares as $middleware) {
-                    if (!$this->callMiddleware($middleware)) {
-                        self::abort(400, 'Bad Request');
+                    $result = $this->callMiddleware($middleware);
+                    if (is_array($result) || $result === false) {
+                        self::abort(400, json_encode($result));
                     }
                 }
             }

@@ -47,14 +47,18 @@ class Validation
 
         // if data fields count is not equal to the rules count, return false
         if (count($data) !== count($rulesToValidate)) {
-            echo 'Data fields count is not equal to the rules provided';
-            return false;
+            return [
+                'status' => 'error',
+                'message' => 'Data fields count is not equal to the rules provided'
+            ];
         }
 
         // Chack data fields validity
-        if(array_diff(array_keys($data), array_keys($rulesToValidate))) {
-            echo 'Data fields are not valid';
-            return false;
+        if (array_diff(array_keys($data), array_keys($rulesToValidate))) {
+            return [
+                'status' => 'error',
+                'message' => 'Data fields are not valid'
+            ];
         }
 
         // Validate each field
@@ -65,8 +69,10 @@ class Validation
             $result = Validator::validate($value, $rules);
 
             if ($result !== true) {
-                echo 'Data field ' . $field . ' is not valid';
-                return false;
+                return [
+                    'status' => 'error',
+                    'message' => ucfirst($field) . ': ' . $result[0]
+                ];
             }
         }
 
