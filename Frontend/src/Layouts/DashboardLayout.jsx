@@ -3,11 +3,11 @@ import classes from "./DashboardLayout.module.scss"
 
 const DashboardLayout = (props) => {
 
-    const routes = ["logout"]
+    const links = ["logout"]
 
     return (
         <div className={classes.dashLayoutContainer}>
-            <Nav links={routes} />
+            <Nav links={links} />
             <div className={classes.dashContainer}>
                 {props.children}
             </div>

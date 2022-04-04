@@ -19,6 +19,10 @@ nav{
         color: base.$gold;
       }
     }
+    .links{
+      width: 20%;
+      @include base.flexRow(center,space-between);
+    }
   }
 
 }

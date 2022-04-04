@@ -26,8 +26,8 @@ const Table = ({columns, data, onAdd, onUpdate}) => {
                         History
                     </span>
 
-                    <div className={classes.add}>
-                        <img onClick={onAdd} src={addIcon} alt="add"/>
+                    <div onClick={onAdd} className={classes.add}>
+                        <img  src={addIcon} alt="add"/>
                         <u>Add a record</u>
                     </div>
 
