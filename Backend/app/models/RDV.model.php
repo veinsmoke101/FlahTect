@@ -59,12 +59,12 @@ class RDV extends Model
      * @param int $id
      * @return array
      */
-    public function get($id)
-    {
-        $this->db->query("SELECT r.id, r.date, t.time_slot, r.description FROM rdvs r INNER JOIN time_slots t ON r.time_slot = t.id WHERE r.id = :id");
-        $this->db->bind(':id', $id);
-        return $this->db->single();
-    }
+    // public function get($id)
+    // {
+    //     $this->db->query("SELECT r.id, r.date, t.time_slot, r.description FROM rdvs r INNER JOIN time_slots t ON r.time_slot = t.id WHERE r.id = :id");
+    //     $this->db->bind(':id', $id);
+    //     return $this->db->single();
+    // }
 
     /**
      * Get reserved time_slots for a given date
