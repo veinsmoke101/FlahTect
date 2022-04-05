@@ -28,11 +28,11 @@ class Auth
     public function handle($role)
     {
         $clientRef = Request::data()['clientRef'] ?? null;
-        $adminUsername = Request::authorization() ?? null;
+        $adminToken = Request::authorization() ?? null;
 
         switch ($role) {
             case 'guest':
-                if (!$clientRef && !$adminUsername) {
+                if (!$clientRef && !$adminToken) {
                     return;
                 }
                 break;
@@ -46,7 +46,7 @@ class Auth
 
             case 'admin':
                 // Check if adminToken exists
-                if ($this->checkAdmin($adminUsername)) {
+                if ($this->checkAdmin($adminToken)) {
                     return;
                 }
                 break;
@@ -56,7 +56,7 @@ class Auth
         }
 
         // Redirect to login page if guest and to home page if user
-        if (!$clientRef && !$adminUsername) {
+        if (!$clientRef && !$adminToken) {
             Router::abort(401, json_encode([
                 'status' => 'error',
                 'message' => 'Unauthorized: You must be logged in'
