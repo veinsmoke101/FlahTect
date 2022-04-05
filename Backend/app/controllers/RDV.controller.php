@@ -167,7 +167,6 @@ class RDV extends Controller
      */
     public function update($data = [])
     {
-        var_dump($data);
         // Check if RDV exists
         $rdv = $this->model('RDV')->get($data['id']);
 
