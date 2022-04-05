@@ -3,9 +3,18 @@ import classes from "./Table.module.scss";
 import editIcon from '../../images/edit 1.svg'
 import deleteIcon from '../../images/delete 2.png'
 import addIcon from '../../images/Add-SVG-Icon-0sfe.svg'
-
+import {ClientContext} from "../../contexts/clientDataContext";
+import {useContext} from "react";
 
 const Table = ({columns, data, onAdd, onUpdate}) => {
+
+    const {setClientId, clientId} = useContext(ClientContext)
+
+    const updateHandler = (id) => {
+        onUpdate()
+        setClientId(id)
+        console.log('Table' + clientId)
+    }
 
     const tableInstance = useTable({columns, data})
 
@@ -16,6 +25,8 @@ const Table = ({columns, data, onAdd, onUpdate}) => {
         rows,
         prepareRow,
     } = tableInstance
+
+
 
     return (
         <div className={classes.tableWrapper}>
@@ -50,10 +61,9 @@ const Table = ({columns, data, onAdd, onUpdate}) => {
                                                 column.render('Header')}
                                         </th>
 
-                                    ))}
-                                <th >
-                                    Action
-                                </th>
+                                    ))
+                                }
+                                <th>Taha</th>
                             </tr>
                         ))}
                     </thead>
@@ -76,10 +86,11 @@ const Table = ({columns, data, onAdd, onUpdate}) => {
                                                 </td>
                                             )
                                         })}
-                                    <td>
-                                         <img onClick={onUpdate} src={editIcon} alt="update"/>
-                                         <img src={deleteIcon} alt="delete"/>
+                                    <td >
+                                        <img onClick={() => updateHandler(row.values.id)} src={editIcon} alt="update"/>
+                                        <img src={deleteIcon} alt="delete"/>
                                     </td>
+
                                 </tr>
                             )
                         })}
@@ -87,7 +98,6 @@ const Table = ({columns, data, onAdd, onUpdate}) => {
                 </table>
             </div>
         </div>
-
     )
 }
 export default Table;

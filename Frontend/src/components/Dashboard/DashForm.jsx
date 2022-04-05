@@ -7,11 +7,6 @@ import Form from '../Form'
 const DashForm = (props) => {
     return (
         <section className={classes.form}>
-            {/*<form onSubmit={props.onSubmit} >*/}
-            {/*    <legend> {props.title} </legend>*/}
-            {/*        {props.children}*/}
-            {/*    <input className={classes.submit} type="submit" value='submit'/>*/}
-            {/*</form>*/}
             <Form onSubmit={props.onSubmit} title={props.title} >
                 {props.children}
             </Form>

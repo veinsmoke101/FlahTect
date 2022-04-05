@@ -11,6 +11,16 @@ const AdminDashboard = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [clientsData, setClientsData] = useState([])
 
+    useEffect(() => {
+        fetch('http://127.0.0.1:2001/api/clients', {
+            method: 'GET'
+        }).then(response => response.json())
+            .then(json => {
+                setIsLoading(false);
+                setClientsData(json.data);
+                console.log(json.data)
+            })
+    }, [])
 
 
     const columns = useMemo(
@@ -41,23 +51,6 @@ const AdminDashboard = () => {
         []
     )
 
-    useEffect(() => {
-        fetch('http://127.0.0.1:2001/api/clients', {
-            method: 'GET'
-        }).then(response => response.json())
-            .then(json => {
-                setIsLoading(false);
-                setClientsData(json.data);
-                console.log(json.data)
-            })
-    }, [])
-
-
-
-    const data = useMemo(
-        () => clientsData,
-        []
-    )
 
     const [formToggle, setFormToggle] = useState(true)
 
@@ -79,9 +72,7 @@ const AdminDashboard = () => {
             <DashboardLayout>
 
                 {formToggle ? <AddClient /> : <UpdateClient />}
-                <Table onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={clientsData} />
-                {/*<button onClick={addHandler} >Add</button>*/}
-                {/*<button onClick={updateHandler} >Update</button>*/}
+                <Table  onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={clientsData} />
 
             </DashboardLayout>
     );
