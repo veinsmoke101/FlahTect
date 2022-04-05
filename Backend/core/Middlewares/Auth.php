@@ -5,6 +5,7 @@ namespace Core\Middlewares;
 use Core\Router;
 use Core\Helpers\Request;
 use App\Models\{Client, Admin};
+use Firebase\JWT\{JWT, Key};
 
 /**
  * Auth class
@@ -27,25 +28,25 @@ class Auth
     public function handle($role)
     {
         $clientRef = Request::data()['clientRef'] ?? null;
-        $adminUsername = Request::data()['username'] ?? null;
+        $adminUsername = Request::authorization() ?? null;
 
         switch ($role) {
             case 'guest':
-                if(!$clientRef && !$adminUsername) {
+                if (!$clientRef && !$adminUsername) {
                     return;
                 }
                 break;
 
             case 'client':
                 // Check if clientRef exists
-                if($this->checkClient($clientRef)) {
+                if ($this->checkClient($clientRef)) {
                     return;
                 }
                 break;
 
             case 'admin':
                 // Check if adminToken exists
-                if($this->checkAdmin($adminUsername)) {
+                if ($this->checkAdmin($adminUsername)) {
                     return;
                 }
                 break;
@@ -76,6 +77,10 @@ class Auth
      */
     public function checkClient($clientRef)
     {
+        if (!$clientRef) {
+            return false;
+        }
+
         $client = new Client();
 
         if ($client->getBy('clientRef', $clientRef)) {
@@ -88,17 +93,29 @@ class Auth
     /**
      * Checks if admin with adminToken is valid and returns true if it does
      * 
-     * @param  string $adminToken
+     * @param  string $jwt
      * @return boolean
      */
-    public function checkAdmin($username)
+    public function checkAdmin($jwt)
     {
-        $admin = new Admin();
-
-        if ($admin->getBy('username', $username)) {
-            return true;
+        if (!$jwt) {
+            return false;
         }
+        try {
+            $token = JWT::decode($jwt, new Key($_ENV['JWT_SECRET_KEY'], "HS256"));
 
-        return false;
+            // Check if admin exists
+            $admin = (new Admin())->getBy('username', $token->sub);
+            if (!$admin) {
+                throw new \Exception('Admin not found');
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            Router::abort(401, json_encode([
+                'status' => 'error',
+                'message' => 'Unauthorized: ' . $e->getMessage()
+            ]));
+        }
     }
 }
