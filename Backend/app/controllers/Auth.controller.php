@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Core\{Controller, Router};
 use Core\Helpers\Request;
+use Firebase\JWT\{JWT};
 
 /**
  * Auth Controller
@@ -99,7 +100,7 @@ class Auth extends Controller
 
         // Hash password
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-        
+
         if (!$this->model('Admin')->add($data)) {
             Router::abort(500, json_encode([
                 'status' => 'error',
@@ -139,11 +140,30 @@ class Auth extends Controller
             ]));
         }
 
-        unset($admin->password);
+        $secret_key = $_ENV['JWT_SECRET_KEY'];
+        $issuer_claim = $_ENV['SERVER_ADDRESS']; // this can be the servername
+        $audience_claim = $_ENV['CLIENT_ADDRESS'];
+        $issuedat_claim = time(); // issued at
+        $notbefore_claim = $issuedat_claim + 10; //not before in seconds
+        $expire_claim = $issuedat_claim + 600; // expire time in seconds
+        $payload = array(
+            "iss" => $issuer_claim,
+            "aud" => $audience_claim,
+            "iat" => $issuedat_claim,
+            "nbf" => $notbefore_claim,
+            "exp" => $expire_claim,
+            "sub" => $admin->username
+        );
 
-        exit(json_encode([
-            'status' => 'success',
-            'data' => $admin
-        ]));
+        http_response_code(200);
+
+        $jwt = JWT::encode($payload, $secret_key, "HS256");
+
+        exit(json_encode(
+            array(
+                "message" => "Successful login.",
+                "jwt" => $jwt
+            ))
+        );
     }
 }

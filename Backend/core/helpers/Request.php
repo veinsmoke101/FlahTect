@@ -80,6 +80,17 @@ class Request
     }
 
     /**
+     * Get Authorization header value.
+     * 
+     * @return string
+     */
+    public static function authorization()
+    {
+        $auth = isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches) ? $matches[1] : null;
+        return $auth ?? false;
+    }
+
+    /**
      * Set response code header.
      * 
      * @param int $code
