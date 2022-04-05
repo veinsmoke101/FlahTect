@@ -19,7 +19,7 @@ class Response {
      */
     public static function json($response) {
         header('Content-Type: application/json');
-        echo json_encode($response);
+        exit(json_encode($response));
     }
 
     /**
@@ -30,7 +30,7 @@ class Response {
      */
     public static function html($response) {
         header('Content-Type: text/html');
-        echo $response;
+        exit($response);
     }
 
     /**
@@ -39,7 +39,7 @@ class Response {
      * @param int $code
      * @return void
      */
-    public static function code($code) {
+    public static function code($code = 200) {
         http_response_code($code);
     }
 }

@@ -127,10 +127,7 @@ class Router
             // Call the Middlewares and stop the execution if one of them returns false
             if (count($middlewares) > 0) {
                 foreach ($middlewares as $middleware) {
-                    $result = $this->callMiddleware($middleware);
-                    if (is_array($result) || $result === false) {
-                        self::abort(400, json_encode($result));
-                    }
+                    $this->callMiddleware($middleware);
                 }
             }
 
@@ -165,9 +162,9 @@ class Router
 
         // Call the middleware method
         if($param) {
-            return $middleware->handle($param);
+            $middleware->handle($param);
         } else {
-            return $middleware->handle();
+            $middleware->handle();
         }
     }
 
@@ -177,6 +174,7 @@ class Router
      * @param string $controller
      * @param string $action
      * @param array $data
+     * 
      */
     protected function callAction($controller, $action, $data)
     {
@@ -194,10 +192,10 @@ class Router
         }
 
         if (empty($data)) {
-            return $controller->$action();
+            $controller->$action();
         }
 
-        return $controller->$action($data);
+        $controller->$action($data);
     }
 
     /**
