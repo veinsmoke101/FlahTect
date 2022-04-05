@@ -1,5 +1,4 @@
 import DashboardLayout from "../Layouts/DashboardLayout";
-import MOCK_DATA from "../components/MOCK_DATA.json";
 import {useEffect, useMemo} from "react";
 import {useState} from "react";
 import Table from "../components/Dashboard/Table";
@@ -13,7 +12,7 @@ const ClientDashboard = () => {
     const [rdvData, setRdvData] = useState([])
 
     useEffect(() => {
-        fetch('http://127.0.0.1:2001/api/clients', {
+        fetch('http://127.0.0.1:2001/api/rdvs?client_id=2', {
             method: 'GET'
         }).then(response => response.json())
             .then(json => {
@@ -33,26 +32,23 @@ const ClientDashboard = () => {
             },
             {
                 Header: 'Date',
-                accessor: 'first_name',
+                accessor: 'date',
             },
             {
                 Header: 'Time',
-                accessor: 'last_name',
+                accessor: 'time_slot',
             }
             ,
             {
                 Header: 'Subject',
-                accessor: 'email',
+                accessor: 'description',
             }
 
         ],
         []
     )
 
-    const data = useMemo(
-        () => MOCK_DATA,
-        []
-    )
+
 
     const [formToggle, setFormToggle] = useState(true)
 
@@ -63,15 +59,18 @@ const ClientDashboard = () => {
         setFormToggle(false)
     }
 
-
-
+    if(isLoading){
+        return (
+            <div>Loading...</div>
+        )
+    }
 
     return (
         <div>
 
             <DashboardLayout>
                 {formToggle ? <AddRDV /> : <UpdateRDV />}
-                <Table onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={data} />
+                <Table onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={rdvData} />
             </DashboardLayout>
 
         </div>

@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64fe7aae-16f1-442b-9ebb-3909e2d59a5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Frontend/src/contexts/clientDataContext.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Frontend/src/contexts/rdvDatacontext.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Clients.controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Clients.controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/components/Dashboard/Admin/AddClient.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/components/Dashboard/Admin/AddClient.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/components/Dashboard/Admin/ClientForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/components/Dashboard/Admin/ClientForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/components/Dashboard/Admin/UpdateClient.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/components/Dashboard/Admin/UpdateClient.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/components/Dashboard/DashForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/components/Dashboard/DashForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/components/Dashboard/Table.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/components/Dashboard/Table.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/main.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/pages/AdminDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/pages/AdminDashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Frontend/src/pages/ClientDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/pages/ClientDashboard.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
