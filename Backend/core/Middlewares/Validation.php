@@ -2,8 +2,8 @@
 
 namespace Core\Middlewares;
 
-use Core\Helpers\Request;
-use Core\Helpers\Validator;
+use Core\Router;
+use Core\Helpers\{Request, Validator};
 
 /**
  * Verification class
@@ -32,7 +32,7 @@ class Validation
      * Validate the request data with the rules defined in the config file
      * 
      * @param  string $fields
-     * @return boolean
+     * @return void
      */
     public function handle(string $fields)
     {
@@ -47,18 +47,18 @@ class Validation
 
         // if data fields count is not equal to the rules count, return false
         if (count($data) !== count($rulesToValidate)) {
-            return [
+            Router::abort(400, json_encode([
                 'status' => 'error',
-                'message' => 'Data fields count is not equal to the rules provided'
-            ];
+                'message' => 'The request data fields count is not equal to the rules count'
+            ]));
         }
 
         // Chack data fields validity
         if (array_diff(array_keys($data), array_keys($rulesToValidate))) {
-            return [
+            Router::abort(400, json_encode([
                 'status' => 'error',
-                'message' => 'Data fields are not valid'
-            ];
+                'message' => 'The request data fields are not valid'
+            ]));
         }
 
         // Validate each field
@@ -69,14 +69,12 @@ class Validation
             $result = Validator::validate($value, $rules);
 
             if ($result !== true) {
-                return [
+                Router::abort(400, json_encode([
                     'status' => 'error',
                     'message' => ucfirst($field) . ': ' . $result[0]
-                ];
+                ]));
             }
         }
-
-        return true;
     }
 
 
