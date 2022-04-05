@@ -8,7 +8,7 @@ export const RDVContext = createContext(null);
 const RdvDataContext = ({children}) => {
 
     const [rdvId, setRdvId]         = useState(0)
-    const [clientId, setClientId]   = useState('')
+    const [clientId, setClientId]   = useState(2)
     const [date, setDate]           = useState('')
     const [time, setTime]           = useState('')
     const [description, setDescription]   = useState('')

@@ -64,7 +64,7 @@ const AddClient = () => {
     }
 
     return (
-        <ClientForm data={['','','','']} title='Create new Client' onSubmit={addSubmitHandler} />
+        <ClientForm  title='Create new Client' onSubmit={addSubmitHandler} />
     );
 };
 

@@ -1,5 +1,4 @@
 import DashboardLayout from "../Layouts/DashboardLayout";
-import MOCK_DATA from "../components/MOCK_DATA.json";
 import {useMemo, useState, useEffect} from "react";
 import Table from "../components/Dashboard/Table";
 import AddClient from "../components/Dashboard/Admin/AddClient";
