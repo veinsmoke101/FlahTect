@@ -1,7 +1,6 @@
 import DashboardLayout from "../Layouts/DashboardLayout";
 import MOCK_DATA from "../components/MOCK_DATA.json";
-import {useMemo} from "react";
-import {useState} from "react";
+import {useMemo, useState, useEffect} from "react";
 import Table from "../components/Dashboard/Table";
 import AddClient from "../components/Dashboard/Admin/AddClient";
 import UpdateClient from "../components/Dashboard/Admin/UpdateClient";
@@ -9,10 +8,10 @@ import UpdateClient from "../components/Dashboard/Admin/UpdateClient";
 
 const AdminDashboard = () => {
 
-    const data = useMemo(
-        () => MOCK_DATA,
-        []
-    )
+    const [isLoading, setIsLoading] = useState(true)
+    const [clientsData, setClientsData] = useState([])
+
+
 
     const columns = useMemo(
         () => [
@@ -22,23 +21,41 @@ const AdminDashboard = () => {
             },
             {
                 Header: 'Firstname',
-                accessor: 'first_name',
+                accessor: 'firstname',
             },
             {
                 Header: 'Lastname',
-                accessor: 'last_name',
+                accessor: 'lastname',
             }
             ,
             {
                 Header: 'Profession',
-                accessor: 'email',
+                accessor: 'profession',
             },
             {
                 Header: 'Age',
-                accessor: 'gender',
+                accessor: 'age',
             }
 
         ],
+        []
+    )
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:2001/api/clients', {
+            method: 'GET'
+        }).then(response => response.json())
+            .then(json => {
+                setIsLoading(false);
+                setClientsData(json.data);
+                console.log(json.data)
+            })
+    }, [])
+
+
+
+    const data = useMemo(
+        () => clientsData,
         []
     )
 
@@ -51,14 +68,18 @@ const AdminDashboard = () => {
         setFormToggle(false)
     }
 
-
+    if(isLoading){
+        return (
+            <div>Loading...</div>
+        )
+    }
 
 
     return (
             <DashboardLayout>
 
                 {formToggle ? <AddClient /> : <UpdateClient />}
-                <Table onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={data} />
+                <Table onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={clientsData} />
                 {/*<button onClick={addHandler} >Add</button>*/}
                 {/*<button onClick={updateHandler} >Update</button>*/}
 

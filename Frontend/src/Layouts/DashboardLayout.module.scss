@@ -13,7 +13,7 @@
     margin-top: 5%;
     border-radius: 10px;
     width: 90%;
-    height: auto;
+    min-height: 85%;
     background-color: base.$white;
     @include base.flexColumn(center,center);
   }

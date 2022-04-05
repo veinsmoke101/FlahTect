@@ -10,7 +10,7 @@ const Nav = (props) => {
                 </div>
                 <ul className={classes.links}>
                     {props.links.map(element => {
-                        return <li> <Link to={`/${element}`} key={element}> {element} </Link> </li>
+                        return <li key={"li_"+element}>> <Link to={`/${element}`} key={element}> {element} </Link> </li>
                     })}
                 </ul>
             </div>
