@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use Core\{Controller, Router};
-use Core\Helpers\Request;
+use Core\Helpers\Response;
 use Firebase\JWT\{JWT};
 
 /**
@@ -21,13 +21,8 @@ class Auth extends Controller
      */
     public function __construct()
     {
-        // Set basic headers for JSON response
-        header('Content-Type: application/json; charset=UTF-8');
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: POST');
-
-        // set response code
-        Request::setResponseCode(200);
+        Response::headers();
+        Response::code();
     }
 
     /**
@@ -52,10 +47,10 @@ class Auth extends Controller
             $this->model('Client')->getLastInsertedId()
         );
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $client
-        ]));
+        ]);
     }
 
     /**
@@ -75,10 +70,10 @@ class Auth extends Controller
             ]));
         }
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $client
-        ]));
+        ]);
     }
 
     /**
@@ -110,10 +105,10 @@ class Auth extends Controller
 
         unset($data['password']);
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $data
-        ]));
+        ]);
     }
 
     /**
@@ -162,11 +157,11 @@ class Auth extends Controller
         // Set expirable cookie for JWT
         setcookie('jwt', $jwt, $expire_claim, "/", $_ENV['SERVER_ADDRESS'], false, true);
 
-        exit(json_encode(
+        Response::send(
             array(
                 "message" => "Successful login.",
                 "jwt" => $jwt
-            ))
+            )
         );
     }
 }

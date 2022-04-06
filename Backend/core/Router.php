@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use Core\Helpers\Request;
+use Core\Helpers\{Request, Response};
 use Exception;
 
 /**
@@ -134,7 +134,7 @@ class Router
             $controller = new $controller;
 
 
-            return $this->callAction(
+            $this->callAction(
                 $controller,
                 $method,
                 $request->data
@@ -174,7 +174,7 @@ class Router
      * @param string $controller
      * @param string $action
      * @param array $data
-     * 
+     * @return void
      */
     protected function callAction($controller, $action, $data)
     {
@@ -208,7 +208,7 @@ class Router
         if (!empty($data)) {
             $uri .= '?' . http_build_query($data);
         }
-        http_response_code($statusCode);
+        Response::code($statusCode);
         header("Location: {$uri}", true, $statusCode);
         exit;
     }
@@ -222,7 +222,7 @@ class Router
      */
     public static function abort($statusCode, $message)
     {
-        http_response_code($statusCode);
-        exit($message);
+        Response::code($statusCode);
+        Response::send($message);
     }
 }

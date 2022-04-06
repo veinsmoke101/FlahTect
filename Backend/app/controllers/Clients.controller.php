@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use Core\{Controller, Router};
-use Core\Helpers\Request;
+use Core\Helpers\Response;
 
 /**
  * Clients Controller
@@ -24,13 +24,8 @@ class Clients extends Controller
         // Set default Model for this controller
         $this->model = $this->model('Client');
 
-        // Set basic headers for JSON response
-        header('Content-Type: application/json; charset=UTF-8');
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-
-        // set response code
-        Request::setResponseCode(200);
+        Response::headers();
+        Response::code();
     }
 
     /**
@@ -49,11 +44,11 @@ class Clients extends Controller
             ]));
         }
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $clients,
             'count' => count($clients)
-        ]));
+        ]);
     }
 
     /**
@@ -73,10 +68,10 @@ class Clients extends Controller
             ]));
         }
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $client
-        ]));
+        ]);
     }
 
     /**
@@ -101,10 +96,10 @@ class Clients extends Controller
             $this->model->getLastInsertedId()
         );
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $client
-        ]));
+        ]);
     }
 
     /**
@@ -137,10 +132,10 @@ class Clients extends Controller
 
         $client = $this->model->get($id);
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $client
-        ]));
+        ]);
     }
 
     /**
@@ -168,8 +163,8 @@ class Clients extends Controller
             ]));
         }
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success'
-        ]));
+        ]);
     }
 }
