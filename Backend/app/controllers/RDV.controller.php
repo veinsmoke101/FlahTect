@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use Core\{Controller, Router};
-use Core\Helpers\Request;
+use Core\Helpers\Response;
 
 /**
  * RDV Controller
@@ -20,13 +20,8 @@ class RDV extends Controller
      */
     public function __construct()
     {
-        // Set basic headers for JSON response
-        header('Content-Type: application/json; charset=UTF-8');
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-
-        // set response code
-        Request::setResponseCode(200);
+        Response::headers();
+        Response::code();
     }
 
     /**
@@ -54,11 +49,11 @@ class RDV extends Controller
             ]));
         }
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $rdvs,
             'count' => count($rdvs)
-        ]));
+        ]);
     }
 
     /**
@@ -82,11 +77,11 @@ class RDV extends Controller
             ]));
         }
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $timeSlots,
             'count' => count($timeSlots)
-        ]));
+        ]);
     }
 
     /**
@@ -106,10 +101,10 @@ class RDV extends Controller
             ]));
         }
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $rdv
-        ]));
+        ]);
     }
 
     /**
@@ -153,10 +148,10 @@ class RDV extends Controller
             $this->model('RDV')->getLastInsertedId()
         );
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $rdv
-        ]));
+        ]);
     }
 
     /**
@@ -167,7 +162,6 @@ class RDV extends Controller
      */
     public function update($data = [])
     {
-        var_dump($data);
         // Check if RDV exists
         $rdv = $this->model('RDV')->get($data['id']);
 
@@ -228,10 +222,10 @@ class RDV extends Controller
 
         $rdv = $this->model('RDV')->get($id);
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $rdv
-        ]));
+        ]);
     }
 
     /**
@@ -259,8 +253,8 @@ class RDV extends Controller
             ]));
         }
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success'
-        ]));
+        ]);
     }
 }

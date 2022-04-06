@@ -3,7 +3,8 @@
 namespace App\Controllers;
 
 use Core\{Controller, Router};
-use Core\Helpers\Request;
+use Core\Helpers\Response;
+use Firebase\JWT\{JWT};
 
 /**
  * Auth Controller
@@ -20,13 +21,8 @@ class Auth extends Controller
      */
     public function __construct()
     {
-        // Set basic headers for JSON response
-        header('Content-Type: application/json; charset=UTF-8');
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: POST');
-
-        // set response code
-        Request::setResponseCode(200);
+        Response::headers();
+        Response::code();
     }
 
     /**
@@ -51,10 +47,10 @@ class Auth extends Controller
             $this->model('Client')->getLastInsertedId()
         );
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $client
-        ]));
+        ]);
     }
 
     /**
@@ -74,10 +70,10 @@ class Auth extends Controller
             ]));
         }
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $client
-        ]));
+        ]);
     }
 
     /**
@@ -99,7 +95,7 @@ class Auth extends Controller
 
         // Hash password
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-        
+
         if (!$this->model('Admin')->add($data)) {
             Router::abort(500, json_encode([
                 'status' => 'error',
@@ -109,10 +105,10 @@ class Auth extends Controller
 
         unset($data['password']);
 
-        exit(json_encode([
+        Response::send([
             'status' => 'success',
             'data' => $data
-        ]));
+        ]);
     }
 
     /**
@@ -139,11 +135,33 @@ class Auth extends Controller
             ]));
         }
 
-        unset($admin->password);
+        $secret_key = $_ENV['JWT_SECRET_KEY'];
+        $issuer_claim = $_ENV['SERVER_ADDRESS']; // this can be the servername
+        $audience_claim = $_ENV['CLIENT_ADDRESS'];
+        $issuedat_claim = time(); // issued at
+        $notbefore_claim = $issuedat_claim + 10; //not before in seconds
+        $expire_claim = $issuedat_claim + 600; // expire time in seconds (10 minutes)
+        $payload = array(
+            "iss" => $issuer_claim,
+            "aud" => $audience_claim,
+            "iat" => $issuedat_claim,
+            "nbf" => $notbefore_claim,
+            "exp" => $expire_claim,
+            "sub" => $admin->username
+        );
 
-        exit(json_encode([
-            'status' => 'success',
-            'data' => $admin
-        ]));
+        http_response_code(200);
+
+        $jwt = JWT::encode($payload, $secret_key, "HS256");
+
+        // Set expirable cookie for JWT
+        setcookie('jwt', $jwt, $expire_claim, "/", $_ENV['SERVER_ADDRESS'], false, true);
+
+        Response::send(
+            array(
+                "message" => "Successful login.",
+                "jwt" => $jwt
+            )
+        );
     }
 }

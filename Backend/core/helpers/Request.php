@@ -80,6 +80,38 @@ class Request
     }
 
     /**
+     * Get header value
+     * 
+     * @param  string $header
+     * @return string
+     */
+    public static function header($header)
+    {
+        $header = strtoupper($header);
+        $header = str_replace('-', '_', $header);
+
+        return $_SERVER['HTTP_' . $header] ?? null;
+    }
+
+
+    /**
+     * Get Authorization header value.
+     * 
+     * @return string
+     */
+    public static function authorization()
+    {
+        // Get authorization token from header
+        $auth = isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches) ? $matches[1] : null;
+
+        // If no authorization token, get it from cookie
+        if (!$auth) {
+            $auth = isset($_COOKIE['jwt']) ? $_COOKIE['jwt'] : null;
+        }
+        return $auth ?? false;
+    }
+
+    /**
      * Set response code header.
      * 
      * @param int $code
