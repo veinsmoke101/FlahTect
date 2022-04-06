@@ -10,7 +10,7 @@ const ClientDataContext = ({children}) => {
     const [clientId, setClientId]       = useState(0)
     const [firstname, setFirstname]     = useState('')
     const [lastname, setLastname]       = useState('')
-    const [age, setAge]                 = useState('')
+    const [age, setAge]                 = useState(0)
     const [profession, setProfession]   = useState('')
     const [reference, setReference]   = useState('')
 

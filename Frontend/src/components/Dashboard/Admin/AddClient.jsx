@@ -16,7 +16,7 @@ const AddClient = () => {
         setLastname('')
         setAge('')
         setProfession('')
-    },[])
+    }, [])
 
     const addSubmitHandler = (event) => {
         event.preventDefault();
@@ -24,27 +24,27 @@ const AddClient = () => {
         const inputs = form.querySelectorAll('input');
         let error = '';
         inputs.forEach(input => {
-            if(input.name === 'age' && (input.value < 0 || input.value > 100)){
+            if (input.name === 'age' && (input.value < 18 || input.value > 100)) {
                 error = 'age'
             }
-            if(!input.value){
+            if (!input.value) {
                 error = 'empty';
             }
         })
 
 
-        if(error === 'age'){
+        if (error === 'age') {
             document.getElementById('error').innerText = "Invalid Age"
-        }else
-        if(error === 'empty'){
+        } else if (error === 'empty') {
             document.getElementById('error').innerText = "please fill all the fields"
-        }else{
+        } else {
             document.getElementById('error').innerText = ""
             let formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
 
-            fetch('http://127.0.0.1:2001/api/client',{
+            fetch('http://127.0.0.1:2001/api/client', {
                 method: 'POST',
+                
                 body: JSON.stringify(data)
             }).then(response => response.text()).then((data) => {
                 handleFields()
@@ -53,10 +53,9 @@ const AddClient = () => {
             }).catch(() => alert('Something went wrong'))
 
 
-
-            function handleFields(){
+            function handleFields() {
                 inputs.forEach(input => {
-                    if(input.type !== 'submit')
+                    if (input.type !== 'submit')
                         input.value = "";
                 })
             }
@@ -64,7 +63,7 @@ const AddClient = () => {
     }
 
     return (
-        <ClientForm  title='Create new Client' onSubmit={addSubmitHandler} />
+        <ClientForm title='Create new Client' onSubmit={addSubmitHandler}/>
     );
 };
 

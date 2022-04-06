@@ -1,4 +1,4 @@
-import { useTable } from 'react-table'
+import {useTable} from 'react-table'
 import classes from "./Table.module.scss";
 import editIcon from '../../images/edit 1.svg'
 import deleteIcon from '../../images/delete 2.png'
@@ -14,11 +14,21 @@ const Table = ({instance, columns, data, onAdd, onUpdate}) => {
 
     const updateHandler = (id) => {
         onUpdate()
-        if(instance === "client")
+        if (instance === "client")
             setClientId(id)
         else
             setRdvId(id)
         console.log('Table' + clientId)
+    }
+    const deleteHandler = (id) => {
+        const clientOrRdv = (instance === "client") ? "client" : "rdv"
+        fetch(`http://127.0.0.1:2001/api/${clientOrRdv}/delete`, {
+            method: 'POST',
+            body: JSON.stringify({id: id})
+        })
+            .then(response => response.json())
+            .then(() => alert(`${clientOrRdv} deleted successfuly`))
+            .catch(() => alert('Something went wrong'))
     }
 
     const tableInstance = useTable({columns, data})
@@ -32,7 +42,6 @@ const Table = ({instance, columns, data, onAdd, onUpdate}) => {
     } = tableInstance
 
 
-
     return (
         <div className={classes.tableWrapper}>
             <div className={classes.history}>
@@ -43,7 +52,7 @@ const Table = ({instance, columns, data, onAdd, onUpdate}) => {
                     </span>
 
                     <div onClick={onAdd} className={classes.add}>
-                        <img  src={addIcon} alt="add"/>
+                        <img src={addIcon} alt="add"/>
                         <u>Add a record</u>
                     </div>
 
@@ -91,9 +100,10 @@ const Table = ({instance, columns, data, onAdd, onUpdate}) => {
                                                 </td>
                                             )
                                         })}
-                                    <td >
+                                    <td>
                                         <img onClick={() => updateHandler(row.values.id)} src={editIcon} alt="update"/>
-                                        <img src={deleteIcon} alt="delete"/>
+                                        <img onClick={() => deleteHandler(row.values.id)} src={deleteIcon}
+                                             alt="delete"/>
                                     </td>
 
                                 </tr>

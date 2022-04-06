@@ -43,11 +43,8 @@ const UpdateClient = () => {
             }
 
             console.log(JSON.stringify(data))
-            fetch('http://127.0.0.1:2001/api/client', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+            fetch('http://127.0.0.1:2001/api/client/update', {
+                method: 'POST',
                 body: JSON.stringify(data)
             }).then(response => response.json()).then((data) => {
                 handleFields()

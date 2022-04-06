@@ -16,7 +16,10 @@ const RDVForm = (props) => {
 
     useEffect(() => {
         if (!date) return;
-        fetch(`http://127.0.0.1:2001/api/rdvs/timeslots?date=${date}`, {method: "GET"}).then(res => res.json())
+        fetch(`http://127.0.0.1:2001/api/rdvs/timeslots?date=${date}`, {
+            method: "GET"
+        })
+            .then(res => res.json())
             .then(data => {
                 setOccupiedTimeSlots(data.data);
             })
