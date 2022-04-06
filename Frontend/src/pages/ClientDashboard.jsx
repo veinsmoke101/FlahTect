@@ -8,6 +8,7 @@ import UpdateRDV from "../components/Dashboard/Client/UpdateRDV";
 
 const ClientDashboard = () => {
 
+
     const [isLoading, setIsLoading] = useState(true)
     const [rdvData, setRdvData] = useState([])
 
@@ -21,7 +22,6 @@ const ClientDashboard = () => {
                 console.log(json.data)
             })
     }, [])
-
 
 
     const columns = useMemo(
@@ -49,7 +49,6 @@ const ClientDashboard = () => {
     )
 
 
-
     const [formToggle, setFormToggle] = useState(true)
 
     const addHandler = () => {
@@ -59,7 +58,7 @@ const ClientDashboard = () => {
         setFormToggle(false)
     }
 
-    if(isLoading){
+    if (isLoading) {
         return (
             <div>Loading...</div>
         )
@@ -69,8 +68,8 @@ const ClientDashboard = () => {
         <div>
 
             <DashboardLayout>
-                {formToggle ? <AddRDV /> : <UpdateRDV />}
-                <Table instance={"rdv"} onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={rdvData} />
+                {formToggle ? <AddRDV/> : <UpdateRDV/>}
+                <Table instance={"rdv"} onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={rdvData}/>
             </DashboardLayout>
 
         </div>
