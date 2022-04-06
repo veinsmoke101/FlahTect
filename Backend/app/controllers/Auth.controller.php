@@ -145,7 +145,7 @@ class Auth extends Controller
         $audience_claim = $_ENV['CLIENT_ADDRESS'];
         $issuedat_claim = time(); // issued at
         $notbefore_claim = $issuedat_claim + 10; //not before in seconds
-        $expire_claim = $issuedat_claim + 600; // expire time in seconds
+        $expire_claim = $issuedat_claim + 600; // expire time in seconds (10 minutes)
         $payload = array(
             "iss" => $issuer_claim,
             "aud" => $audience_claim,
@@ -158,6 +158,9 @@ class Auth extends Controller
         http_response_code(200);
 
         $jwt = JWT::encode($payload, $secret_key, "HS256");
+
+        // Set expirable cookie for JWT
+        setcookie('jwt', $jwt, $expire_claim, "/", $_ENV['SERVER_ADDRESS'], false, true);
 
         exit(json_encode(
             array(

@@ -27,7 +27,7 @@ class Auth
      */
     public function handle($role)
     {
-        $clientRef = Request::data()['clientRef'] ?? null;
+        $clientRef = Request::header('clientRef') ?? null;
         $adminToken = Request::authorization() ?? null;
 
         switch ($role) {
