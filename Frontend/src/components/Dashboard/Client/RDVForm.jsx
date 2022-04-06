@@ -1,35 +1,41 @@
-import React, { useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import DashForm from "../DashForm";
 import classes from './RDVForm.module.scss'
+import {RDVContext} from "../../../contexts/rdvDatacontext";
+import TimeSlots from "./TimeSlots";
 
 const RDVForm = (props) => {
-    const fields = ['date', 'time', 'subject']
-    let inputs;
 
-    const [date, setDate]     = useState(props.data[0])
-    const [time, setTime]       = useState(props.data[1])
-    const [subject, setSubject]   = useState(props.data[2])
 
-    function click(){
-        const timeOption = document.getElementById('date');
-        if(timeOption)
-            timeOption.remove();
+    const {
+        date, setDate,
+        description, setDescription,
+        setOccupiedTimeSlots
+    } = useContext(RDVContext)
+
+
+    useEffect(() => {
+        if (!date) return;
+        fetch(`http://127.0.0.1:2001/api/rdvs/timeslots?date=${date}`, {method: "GET"}).then(res => res.json())
+            .then(data => {
+                setOccupiedTimeSlots(data.data);
+            })
+    }, [date])
+
+
+    const handleDateChange = (e) => {
+        setDate(e.target.value)
     }
 
     return (
-        <DashForm image={"client"} title={props.title} onSubmit={props.onSubmit} >
+        <DashForm image={"client"} title={props.title} onSubmit={props.onSubmit}>
             <div className={classes.timeWrapper}>
-                <input className={`${classes.input} ${classes.date}`}  type={'date'} value={date} onChange={(e => setDate(e.target.value))} placeholder={'date'} name={'date'}/>
-                <select onClick={click} name="time_slot" id="time">
-                    <option id={"date"} value="date">Date</option>
-                    <option value={"1"}>10h to 10:30h</option>
-                    <option value="2">11h to 11:30h</option>
-                    <option value="3">14h to 14:30h</option>
-                    <option value="4">15h to 15:30h</option>
-                    <option value="5">16h to 16:30h</option>
-                </select>
+                <input min={new Date().toJSON().slice(0, 10)} id={"date"} className={`${classes.input} ${classes.date}`}
+                       type={'date'} value={date} onChange={handleDateChange} placeholder={'date'} name={'date'}/>
+                <TimeSlots/>
             </div>
-            <input className={classes.input}  type={'text'} value={subject} onChange={(e => setSubject(e.target.value))} placeholder={'subject'} name={'description'}/>
+            <input className={classes.input} type={'text'} value={description}
+                   onChange={(e => setDescription(e.target.value))} placeholder={'subject'} name={'description'}/>
         </DashForm>
     );
 };

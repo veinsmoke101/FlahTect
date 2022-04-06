@@ -10,7 +10,7 @@ const AddRdv = () => {
         event.preventDefault();
         const form = document.getElementById('form');
         const inputs = form.querySelectorAll('input');
-        const timeOption = document.getElementById('date')
+        const timeOption = document.getElementById('timePlaceHolder')
 
         let error = '';
         inputs.forEach(input => {

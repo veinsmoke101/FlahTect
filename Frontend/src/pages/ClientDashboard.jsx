@@ -70,7 +70,7 @@ const ClientDashboard = () => {
 
             <DashboardLayout>
                 {formToggle ? <AddRDV /> : <UpdateRDV />}
-                <Table onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={rdvData} />
+                <Table instance={"rdv"} onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={rdvData} />
             </DashboardLayout>
 
         </div>
