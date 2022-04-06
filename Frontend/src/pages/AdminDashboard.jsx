@@ -71,7 +71,7 @@ const AdminDashboard = () => {
             <DashboardLayout>
 
                 {formToggle ? <AddClient /> : <UpdateClient />}
-                <Table  onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={clientsData} />
+                <Table instance={"client"}  onAdd={addHandler} onUpdate={updateHandler} columns={columns} data={clientsData} />
 
             </DashboardLayout>
     );

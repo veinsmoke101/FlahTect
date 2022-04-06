@@ -5,14 +5,19 @@ import deleteIcon from '../../images/delete 2.png'
 import addIcon from '../../images/Add-SVG-Icon-0sfe.svg'
 import {ClientContext} from "../../contexts/clientDataContext";
 import {useContext} from "react";
+import {RDVContext} from "../../contexts/rdvDatacontext";
 
-const Table = ({columns, data, onAdd, onUpdate}) => {
+const Table = ({instance, columns, data, onAdd, onUpdate}) => {
 
     const {setClientId, clientId} = useContext(ClientContext)
+    const {rdvId, setRdvId} = useContext(RDVContext)
 
     const updateHandler = (id) => {
         onUpdate()
-        setClientId(id)
+        if(instance === "client")
+            setClientId(id)
+        else
+            setRdvId(id)
         console.log('Table' + clientId)
     }
 
