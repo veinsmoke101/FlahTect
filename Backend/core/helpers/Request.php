@@ -110,15 +110,4 @@ class Request
         }
         return $auth ?? false;
     }
-
-    /**
-     * Set response code header.
-     * 
-     * @param int $code
-     * @return void
-     */
-    public static function setResponseCode($code)
-    {
-        http_response_code($code);
-    }
 }

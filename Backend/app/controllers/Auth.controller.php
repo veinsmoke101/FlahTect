@@ -139,24 +139,23 @@ class Auth extends Controller
         $issuer_claim = $_ENV['SERVER_ADDRESS']; // this can be the servername
         $audience_claim = $_ENV['CLIENT_ADDRESS'];
         $issuedat_claim = time(); // issued at
-        $notbefore_claim = $issuedat_claim + 10; //not before in seconds
+        // $notbefore_claim = $issuedat_claim + 10; //not before in seconds
         $expire_claim = $issuedat_claim + 600; // expire time in seconds (10 minutes)
         $payload = array(
             "iss" => $issuer_claim,
             "aud" => $audience_claim,
             "iat" => $issuedat_claim,
-            "nbf" => $notbefore_claim,
+            // "nbf" => $notbefore_claim,
             "exp" => $expire_claim,
             "sub" => $admin->username
         );
 
-        http_response_code(200);
-
         $jwt = JWT::encode($payload, $secret_key, "HS256");
-
+        
         // Set expirable cookie for JWT
         setcookie('jwt', $jwt, $expire_claim, "/", $_ENV['SERVER_ADDRESS'], false, true);
-
+        
+        Response::code();
         Response::send(
             array(
                 "message" => "Successful login.",
