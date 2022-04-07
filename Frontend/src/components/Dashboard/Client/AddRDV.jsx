@@ -1,10 +1,12 @@
 import React, {useContext} from 'react';
 import RDVForm from "./RDVForm";
 import {RDVContext} from "../../../contexts/rdvDatacontext";
+import {AuthContext} from "../../../contexts/UserAuthContext";
 
 const AddRdv = () => {
 
     const {clientId} = useContext(RDVContext)
+    const {loggedClientRef} = useContext(AuthContext)
 
     const addSubmitHandler = (event) => {
         event.preventDefault();
@@ -31,8 +33,11 @@ const AddRdv = () => {
             formData.append('client_id', clientId)
             const data = Object.fromEntries(formData.entries());
             console.log(data)
+            let myHeaders = new Headers();
+            myHeaders.append("clientRef", loggedClientRef);
             fetch('http://127.0.0.1:2001/api/rdv', {
                 method: 'POST',
+                headers: myHeaders,
                 body: JSON.stringify(data)
             }).then(response => response.json())
                 .then((data) => {

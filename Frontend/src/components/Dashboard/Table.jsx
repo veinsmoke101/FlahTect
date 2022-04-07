@@ -6,11 +6,13 @@ import addIcon from '../../images/Add-SVG-Icon-0sfe.svg'
 import {ClientContext} from "../../contexts/clientDataContext";
 import {useContext} from "react";
 import {RDVContext} from "../../contexts/rdvDatacontext";
+import {AuthContext} from "../../contexts/UserAuthContext";
 
 const Table = ({instance, columns, data, onAdd, onUpdate}) => {
 
     const {setClientId, clientId} = useContext(ClientContext)
     const {rdvId, setRdvId} = useContext(RDVContext)
+    const {loggedClientRef} = useContext(AuthContext)
 
     const updateHandler = (id) => {
         onUpdate()
@@ -20,10 +22,13 @@ const Table = ({instance, columns, data, onAdd, onUpdate}) => {
             setRdvId(id)
         console.log('Table' + clientId)
     }
+    let myHeaders = new Headers();
+    myHeaders.append("clientRef", loggedClientRef);
     const deleteHandler = (id) => {
         const clientOrRdv = (instance === "client") ? "client" : "rdv"
         fetch(`http://127.0.0.1:2001/api/${clientOrRdv}/delete`, {
             method: 'POST',
+            headers: myHeaders,
             body: JSON.stringify({id: id})
         })
             .then(response => response.json())

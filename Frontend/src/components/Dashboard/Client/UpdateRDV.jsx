@@ -1,6 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import RDVForm from './RDVForm'
 import {RDVContext} from "../../../contexts/rdvDatacontext";
+import {AuthContext} from "../../../contexts/UserAuthContext";
 
 const UpdateRdv = () => {
 
@@ -12,6 +13,7 @@ const UpdateRdv = () => {
         description, setDescription
     } = useContext(RDVContext)
 
+    const {loggedClientRef} = useContext(AuthContext)
 
     const handleUpdateSubmit = (event) => {
         event.preventDefault();
@@ -40,8 +42,11 @@ const UpdateRdv = () => {
             }
 
             console.log(JSON.stringify(data))
+            let myHeaders = new Headers();
+            myHeaders.append("clientRef", loggedClientRef);
             fetch('http://127.0.0.1:2001/api/rdv/update', {
                 method: 'POST',
+                headers: myHeaders,
                 body: JSON.stringify(data)
             })
                 .then(response => {
@@ -67,9 +72,12 @@ const UpdateRdv = () => {
     }
 
     useEffect(() => {
+            let myHeaders = new Headers();
+            myHeaders.append("clientRef", loggedClientRef);
             console.log(rdvId)
             fetch('http://127.0.0.1:2001/api/rdv?id=' + rdvId, {
-                method: 'GET'
+                method: 'GET',
+                headers: myHeaders
             })
                 .then(res => res.json())
                 .then((data) => {
