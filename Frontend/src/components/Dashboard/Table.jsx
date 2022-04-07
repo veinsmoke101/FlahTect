@@ -7,12 +7,12 @@ import {ClientContext} from "../../contexts/clientDataContext";
 import {useContext} from "react";
 import {RDVContext} from "../../contexts/rdvDatacontext";
 import {AuthContext} from "../../contexts/UserAuthContext";
+import {AdminContext} from "../../contexts/AdminAuthContext";
 
 const Table = ({instance, columns, data, onAdd, onUpdate}) => {
 
     const {setClientId, clientId} = useContext(ClientContext)
     const {rdvId, setRdvId} = useContext(RDVContext)
-    const {loggedClientRef} = useContext(AuthContext)
 
     const updateHandler = (id) => {
         onUpdate()
@@ -23,7 +23,14 @@ const Table = ({instance, columns, data, onAdd, onUpdate}) => {
         console.log('Table' + clientId)
     }
     let myHeaders = new Headers();
-    myHeaders.append("clientRef", loggedClientRef);
+    if (instance === "rdv") {
+        const {loggedClientRef} = useContext(AuthContext)
+        myHeaders.append("clientRef", loggedClientRef);
+    } else {
+        const {jwtToken} = useContext(AdminContext)
+        myHeaders.append("Authorization", `Bearer ${jwtToken}`)
+    }
+
     const deleteHandler = (id) => {
         const clientOrRdv = (instance === "client") ? "client" : "rdv"
         fetch(`http://127.0.0.1:2001/api/${clientOrRdv}/delete`, {

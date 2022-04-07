@@ -1,6 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import ClientForm from "./ClientForm";
 import {ClientContext} from '../../../contexts/clientDataContext'
+import {AdminContext} from "../../../contexts/AdminAuthContext";
 
 
 const UpdateClient = () => {
@@ -12,6 +13,9 @@ const UpdateClient = () => {
         age, setAge,
         profession, setProfession
     } = useContext(ClientContext)
+
+    const {jwtToken} = useContext(AdminContext)
+
 
     const updateSubmitHandler = (event) => {
         event.preventDefault();
@@ -43,8 +47,11 @@ const UpdateClient = () => {
             }
 
             console.log(JSON.stringify(data))
+            let myHeaders = new Headers()
+            myHeaders.append("Authorization", `Bearer ${jwtToken}`)
             fetch('http://127.0.0.1:2001/api/client/update', {
                 method: 'POST',
+                headers: myHeaders,
                 body: JSON.stringify(data)
             }).then(response => response.json()).then((data) => {
                 handleFields()
@@ -64,8 +71,11 @@ const UpdateClient = () => {
 
 
     useEffect(() => {
+            let myHeaders = new Headers()
+            myHeaders.append("Authorization", `Bearer ${jwtToken}`)
             fetch('http://127.0.0.1:2001/api/client?id=' + clientId, {
-                method: 'GET'
+                method: 'GET',
+                headers: myHeaders
             })
                 .then(res => res.json())
                 .then((data) => {

@@ -6,14 +6,17 @@ import {BrowserRouter} from "react-router-dom";
 import ClientDataContext from "./contexts/clientDataContext";
 import RdvDataContext from "./contexts/rdvDatacontext";
 import UserAuthContext from "./contexts/UserAuthContext";
+import AdminAuthContext from "./contexts/AdminAuthContext";
 
 ReactDOM.render(
     <BrowserRouter>
         <ClientDataContext>
             <RdvDataContext>
-                <UserAuthContext>
-                    <App/>
-                </UserAuthContext>
+                <AdminAuthContext>
+                    <UserAuthContext>
+                        <App/>
+                    </UserAuthContext>
+                </AdminAuthContext>
             </RdvDataContext>
         </ClientDataContext>
     </BrowserRouter>
