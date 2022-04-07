@@ -246,6 +246,14 @@ class RDV extends Controller
             ]));
         }
 
+        // Check if date RDV already passed
+        if (strtotime($rdv->date) <= strtotime(date('Y-m-d'))) {
+            Router::abort(400, json_encode([
+                'status' => 'error',
+                'message' => 'Too late to delete RDV'
+            ]));
+        }
+
         if (!$this->model('RDV')->delete($data['id'])) {
             Router::abort(500, json_encode([
                 'status' => 'error',
