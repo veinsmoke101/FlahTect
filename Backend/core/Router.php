@@ -125,7 +125,7 @@ class Router
             $middlewares = $this->routes[$request->method][$request->uri]['middlewares'] ?? [];
 
             // Call the Middlewares and stop the execution if one of them returns false
-            if (count($middlewares) > 0) {
+            if (count($middlewares) > 0 && Request::method() !== 'OPTIONS') {
                 foreach ($middlewares as $middleware) {
                     $this->callMiddleware($middleware);
                 }
