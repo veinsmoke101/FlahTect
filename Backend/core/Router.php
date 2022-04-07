@@ -114,6 +114,13 @@ class Router
      */
     public function direct($request)
     {
+        // preflight request to check if the request is valid or not
+        if ($request->method() === 'OPTIONS') {
+            Response::headers();
+            Response::code();
+            exit;
+        }
+
         if (array_key_exists($request->uri, $this->routes[$request->method])) {
             $uri = explode('@', $this->routes[$request->method][$request->uri]['route']);
 
@@ -125,7 +132,7 @@ class Router
             $middlewares = $this->routes[$request->method][$request->uri]['middlewares'] ?? [];
 
             // Call the Middlewares and stop the execution if one of them returns false
-            if (count($middlewares) > 0 && Request::method() !== 'OPTIONS') {
+            if (count($middlewares) > 0) {
                 foreach ($middlewares as $middleware) {
                     $this->callMiddleware($middleware);
                 }
@@ -161,7 +168,7 @@ class Router
         $middleware = new $middleware;
 
         // Call the middleware method
-        if($param) {
+        if ($param) {
             $middleware->handle($param);
         } else {
             $middleware->handle();
