@@ -10,7 +10,7 @@ class Response
     public static function headers(
         $contentType = 'application/json',
         $allowOrigin = '*',
-        $allowMethods = 'GET, POST, PUT, DELETE, OPTIONS'
+        $allowMethods = 'GET, POST'
     ) {
         header('Content-Type: ' . $contentType . '; charset=UTF-8');
         header('Access-Control-Allow-Origin: ' . $allowOrigin);
