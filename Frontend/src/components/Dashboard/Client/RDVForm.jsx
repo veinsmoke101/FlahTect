@@ -3,6 +3,7 @@ import DashForm from "../DashForm";
 import classes from './RDVForm.module.scss'
 import {RDVContext} from "../../../contexts/rdvDatacontext";
 import TimeSlots from "./TimeSlots";
+import {AuthContext} from "../../../contexts/UserAuthContext";
 
 const RDVForm = (props) => {
 
@@ -13,11 +14,16 @@ const RDVForm = (props) => {
         setOccupiedTimeSlots
     } = useContext(RDVContext)
 
+    const {loggedClientRef} = useContext(AuthContext)
+
 
     useEffect(() => {
         if (!date) return;
+        let myHeaders = new Headers();
+        myHeaders.append("clientRef", loggedClientRef);
         fetch(`http://127.0.0.1:2001/api/rdvs/timeslots?date=${date}`, {
-            method: "GET"
+            method: "GET",
+            headers: myHeaders
         })
             .then(res => res.json())
             .then(data => {
