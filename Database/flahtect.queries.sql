@@ -1,6 +1,6 @@
 CREATE TABLE `admins` (
     `username` varchar(255) PRIMARY KEY,
-    `password` varchar(255) NOT NULL,
+    `password` varchar(255) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 
@@ -17,7 +17,7 @@ CREATE TABLE `clients` (
 
 CREATE TABLE `time_slots` (
     `id` int(11) PRIMARY KEY,
-    `time_slot` VARCHAR(255) NOT NULL,
+    `time_slot` VARCHAR(255) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 
