@@ -39,8 +39,8 @@ abstract class Controller
         extract($data);
 
         // check for view file
-        if (file_exists(APPROOT . "/views/$view.view.php")) {
-            require_once APPROOT . "/views/$view.view.php";
+        if (file_exists(dirname(__DIR__) . "/views/$view.view.php")) {
+            require_once dirname(__DIR__) . "/views/$view.view.php";
         } else {
             // View does not exist
             Router::abort(404, "View '$view' does not exist.");
