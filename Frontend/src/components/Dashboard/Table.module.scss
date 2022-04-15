@@ -1,25 +1,31 @@
 @use '../base';
 
 
-
 .tableWrapper {
+
   width: 80%;
   position: relative;
-  .history{
+
+  .history {
 
     font-family: base.$primaryFont;
+
     hr {
       border-top: 1px solid base.$black;
     }
-    .wrapper{
+
+    .wrapper {
       margin: 10px 0;
-      span{
+
+      span {
         margin-left: 6%;
       }
-      .add{
+
+      .add {
         cursor: pointer;
-        margin-right:100px ;
-        img{
+        margin-right: 5%;
+
+        img {
           display: inline-block;
           width: 20px;
           height: 20px;
@@ -27,23 +33,25 @@
         }
       }
 
-      @include base.flexRow(center,space-between)
+      @include base.flexRow(center, space-between)
     }
 
   }
 
   .tableScroll {
-    overflow: scroll ;
+    overflow: scroll;
     max-width: 900px;
     max-height: 280px;
-    table{
+
+    table {
       table-layout: auto;
       width: 100%;
 
-      td,th{
+      td, th {
         padding: 6px;
         text-align: start;
       }
+
       th {
         border-top: 1px solid black;
         border-bottom: 1px solid black;
@@ -57,7 +65,8 @@
       td {
         border-bottom: 1px solid;
         border-right: 1px solid;
-        img{
+
+        img {
           display: inline-block;
           width: 20px;
           height: 20px;
@@ -70,8 +79,13 @@
       td:first-child {
         border-left: 1px solid black;
       }
+
       border-collapse: separate;
       border-spacing: 0;
     }
+  }
+
+  @include base.tablet {
+    font-size: 12px;
   }
 }

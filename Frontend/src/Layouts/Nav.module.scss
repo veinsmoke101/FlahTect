@@ -1,28 +1,47 @@
 @use '../components/base';
-nav{
 
+nav {
   width: 100%;
   background-color: base.$white;
   position: fixed;
   top: 0;
   height: 50px;
-  @include base.flexRow(center,center);
-  .navContainer{
+  @include base.flexRow(center, center);
+
+  .navContainer {
     width: 90%;
-    @include base.flexRow(center,space-between);
-    .logo{
+    @include base.flexRow(center, space-between);
+
+    .logo {
+      @include base.phone {
+        font-size: 24px;
+      }
       font-size: 32px;
       font-weight: bold;
       font-family: base.$primaryFont;
 
-      span{
+      span {
         color: base.$gold;
       }
     }
-    .links{
+
+    .links {
       width: 20%;
-      @include base.flexRow(center,space-between);
+
+      li {
+        margin-left: auto;
+      }
+
+      @include base.flexRow(center, space-around);
+      @include base.large-tablet {
+        width: 40%;
+      }
+      @include base.phone {
+        width: 60%;
+        font-size: 14px;
+      }
     }
+
   }
 
 }

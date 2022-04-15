@@ -5,8 +5,7 @@ import {AuthContext} from "../../../contexts/UserAuthContext";
 
 const AddRdv = () => {
 
-    const {clientId} = useContext(RDVContext)
-    const {loggedClientRef} = useContext(AuthContext)
+    const {loggedClientRef, loggedClientId} = useContext(AuthContext)
 
     const addSubmitHandler = (event) => {
         event.preventDefault();
@@ -16,7 +15,6 @@ const AddRdv = () => {
 
         let error = '';
         inputs.forEach(input => {
-
             if (!input.value || timeOption) {
                 error = 'empty';
             }
@@ -30,7 +28,7 @@ const AddRdv = () => {
         } else {
             document.getElementById('error').innerText = ""
             let formData = new FormData(form);
-            formData.append('client_id', clientId)
+            formData.append('client_id', loggedClientId)
             const data = Object.fromEntries(formData.entries());
             console.log(data)
             let myHeaders = new Headers();

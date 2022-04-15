@@ -8,14 +8,16 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  @include base.flexRow(center,center);
-  .dashContainer{
+  @include base.flexRow(center, center);
+
+  .dashContainer {
     margin-top: 5%;
     border-radius: 10px;
     width: 90%;
-    min-height: 85%;
+    min-height: 85vh;
     background-color: base.$white;
-    @include base.flexColumn(center,center);
+    @include base.flexColumn(center, center);
+
   }
 
 }

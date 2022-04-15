@@ -10,7 +10,7 @@ const AdminDashboard = () => {
 
     const [isLoading, setIsLoading] = useState(true)
     const [clientsData, setClientsData] = useState([])
-    const {jwtToken} = useContext(AdminContext)
+    const { jwtToken } = useContext(AdminContext)
 
     useEffect(() => {
         let myHeaders = new Headers()
