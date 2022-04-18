@@ -4,7 +4,11 @@ import {createContext} from "react";
 export const AdminContext = createContext(null)
 
 const AdminAuthContext = ({children}) => {
-    const [jwtToken, setJwtToken] = useState("")
+    let token = ""
+    if(localStorage.getItem('adminToken')){
+        token = localStorage.getItem('adminToken')
+    }
+    const [jwtToken, setJwtToken] = useState(token)
 
 
     return (

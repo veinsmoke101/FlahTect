@@ -15,9 +15,10 @@ function App() {
                 {["/", "login"].map(route => {
                     return <Route key={route} path={route} element={<ClientLogin/>}/>
                 })}
-                <Route element={<ProtectedRoutes/>}>
+                <Route element={<ProtectedRoutes type={"client"}/>}>
                     <Route path="/client-dashboard" element={<ClientDashboard/>}/>
                 </Route>
+
                 <Route path="/admin" element={<AdminLogin/>}/>
                 <Route path="/register" element={<ClientRegister/>}/>
                 <Route path="/admin-dashboard" element={<AdminDashboard/>}/>

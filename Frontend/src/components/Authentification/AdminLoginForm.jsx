@@ -35,6 +35,7 @@ const AdminLoginForm = () => {
                 body: JSON.stringify(data)
             }).then(response => response.json()).then((admin) => {
                 setJwtToken(admin.jwt)
+                localStorage.setItem('adminToken', admin.jwt)
                 if (location.state?.from) {
                     navigate(location.state.from)
                 } else {

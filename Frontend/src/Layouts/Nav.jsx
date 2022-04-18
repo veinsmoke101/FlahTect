@@ -16,6 +16,7 @@ const Nav = (props) => {
     const logoutHandler = () => {
         localStorage.removeItem('clientId')
         localStorage.removeItem('clientRef')
+        localStorage.removeItem('adminToken')
         setLoggedClientId('')
         setLoggedClientRef('')
         navigate('/login')
