@@ -5,9 +5,16 @@ export const AuthContext = createContext(null)
 
 const UserAuthContext = ({children}) => {
 
+    let clientId = ""
+    let clientRef = ""
+    if (localStorage.getItem('clientId')) {
+        clientId = localStorage.getItem('clientId')
+        clientRef = localStorage.getItem('clientRef')
+    }
+
     const [state, setState] = useState({
-        loggedClientId: "",
-        loggedClientRef: "",
+        loggedClientId: clientId,
+        loggedClientRef: clientRef,
         loggedFirstname: "",
         loggedLastname: "",
         loggedAge: "",

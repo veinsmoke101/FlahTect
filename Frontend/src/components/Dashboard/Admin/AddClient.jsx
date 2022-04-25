@@ -1,6 +1,7 @@
 import ClientForm from "./ClientForm";
 import {useContext, useEffect} from "react";
 import {ClientContext} from "../../../contexts/clientDataContext";
+import {AdminContext} from "../../../contexts/AdminAuthContext";
 
 const AddClient = () => {
 
@@ -10,6 +11,9 @@ const AddClient = () => {
         setAge,
         setProfession
     } = useContext(ClientContext)
+
+    const {jwtToken} = useContext(AdminContext)
+
 
     useEffect(() => {
         setFirstname('')
@@ -41,10 +45,11 @@ const AddClient = () => {
             document.getElementById('error').innerText = ""
             let formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
-
+            let myHeaders = new Headers()
+            myHeaders.append("Authorization", `Bearer ${jwtToken}`)
             fetch('http://127.0.0.1:2001/api/client', {
                 method: 'POST',
-                
+                headers: myHeaders,
                 body: JSON.stringify(data)
             }).then(response => response.text()).then((data) => {
                 handleFields()

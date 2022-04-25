@@ -1,31 +1,50 @@
 @use '../base';
 
-.form{
+.form {
   width: 80%;
   height: 80%;
   @include base.flexRow(center, space-around);
+  @include base.phone {
+    width: 100%;
+  }
+
   form {
     width: 50%;
     height: 100%;
-    @include base.flexColumn(start, space-around);
+    @include base.flexColumn(flex-start, space-around);
+    @include base.phone {
+      align-items: center;
+    }
+
     legend {
       font-family: base.$primaryFont;
     }
-    .submit{
+
+    .submit {
       color: base.$white;
       background-color: black;
       width: 40%;
       border-radius: 5px;
     }
-    input, div{
+
+    input, div {
       width: 80%;
     }
 
+
+    @include base.tablet {
+      width: 100%;
+    }
   }
+
   .illustration {
-    img{
+    img {
       width: 250px;
       height: auto;
+    }
+
+    @include base.phone {
+      display: none;
     }
   }
 }

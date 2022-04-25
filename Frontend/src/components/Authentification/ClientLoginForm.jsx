@@ -39,8 +39,10 @@ const ClientLoginForm = () => {
                 method: 'POST',
                 body: JSON.stringify(data)
             }).then(response => response.json()).then((account) => {
-                setLoggedClientId(account.data.id)
-                setLoggedClientRef(account.data.clientRef)
+                localStorage.setItem('clientId', account.data.id);
+                localStorage.setItem('clientRef', account.data.clientRef);
+                setLoggedClientId(() => account.data.id)
+                setLoggedClientRef( () => account.data.clientRef)
                 setLoggedFirstname(account.data.firstname)
                 setLoggedLastname(account.data.lastname)
                 setLoggedAge(account.data.age)
